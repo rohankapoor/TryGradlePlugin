@@ -1,0 +1,68 @@
+apply plugin: 'com.android.application'
+
+android {
+    compileSdkVersion 25
+    buildToolsVersion "25.0.2"
+    defaultConfig {
+        applicationId "rohan.com.trygradleplugin2"
+        minSdkVersion 19
+        targetSdkVersion 25
+        versionCode 1
+        versionName "1.0"
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+}
+
+dependencies {
+    compile fileTree(dir: 'libs', include: ['*.jar'])
+    androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
+        exclude group: 'com.android.support', module: 'support-annotations'
+    })
+    compile 'com.android.support:appcompat-v7:25.1.1'
+    compile 'com.android.support:design:25.1.1'
+    testCompile 'junit:junit:4.12'
+}
+
+
+// Simple plugin. To run : ./gradlew hello
+
+apply plugin: GreetingPlugin
+
+class GreetingPlugin implements Plugin<Project> {
+    void apply(Project project) {
+        project.task('hello') {
+            doLast {
+                println "Hello from the GreetingPlugin"
+            }
+        }
+    }
+}
+
+
+//// Plugin with extension. To run : ./gradlew hello1
+//apply plugin: GreetingPlugin1
+//
+//greeting1.message = 'Hi from Rohan'
+//
+//class GreetingPlugin1 implements Plugin<Project> {
+//    void apply(Project project) {
+//        // Add the 'greeting' extension object
+//        project.extensions.create("greeting1", GreetingPluginExtension)
+//        // Add a task that uses the configuration
+//        project.task('hello1') {
+//            doLast {
+//                println project.greeting1.message
+//            }
+//        }
+//    }
+//}
+//
+//class GreetingPluginExtension {
+//    def String message = 'Hello from GreetingPlugin1'
+//}
